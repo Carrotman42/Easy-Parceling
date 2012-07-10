@@ -3,6 +3,7 @@ package com.ksoft.easy;
 import java.io.IOException;
 
 import com.ksoft.serialization.Deserializer;
+import com.ksoft.serialization.EasySerializableBase;
 import com.ksoft.serialization.Serializer;
 
 public class TestEasy extends EasySerializableBase {

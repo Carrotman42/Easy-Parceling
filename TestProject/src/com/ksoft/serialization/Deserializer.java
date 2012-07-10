@@ -5,7 +5,6 @@ import java.io.IOException;
 
 import android.os.Parcelable;
 
-import com.ksoft.easy.EasySerializable;
 
 public abstract class Deserializer {
     public abstract boolean readBoolean() throws IOException;

@@ -11,6 +11,7 @@ import com.ksoft.serialization.Deserializer;
 import com.ksoft.serialization.Serializer;
 import com.ksoft.serialization.StaticDataReader;
 import com.ksoft.serialization.XmlRecreatable;
+import com.ksoft.serialization.XmlRecreatableBase;
 
 public class TestXml extends XmlRecreatableBase {
     private int t1;

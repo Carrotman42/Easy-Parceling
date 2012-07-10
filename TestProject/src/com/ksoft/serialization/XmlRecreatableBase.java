@@ -1,4 +1,4 @@
-package com.ksoft.easy;
+package com.ksoft.serialization;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -10,8 +10,6 @@ import org.xmlpull.v1.XmlSerializer;
 
 import android.util.Log;
 
-import com.ksoft.serialization.Deserializer;
-import com.ksoft.serialization.XmlRecreatable;
 
 public abstract class XmlRecreatableBase extends EasySerializableBase implements XmlRecreatable {
     /**

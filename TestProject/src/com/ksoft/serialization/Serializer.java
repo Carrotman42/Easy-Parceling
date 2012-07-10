@@ -5,7 +5,6 @@ import java.io.IOException;
 
 import android.os.Parcelable;
 
-import com.ksoft.easy.EasySerializable;
 
 public abstract class Serializer {
     public abstract void writeBoolean(boolean val) throws IOException;

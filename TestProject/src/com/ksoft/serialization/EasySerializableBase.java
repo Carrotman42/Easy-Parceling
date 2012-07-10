@@ -1,14 +1,10 @@
-package com.ksoft.easy;
+package com.ksoft.serialization;
 
 import java.io.IOException;
 
 import android.os.Parcel;
 import android.util.Log;
 
-import com.ksoft.serialization.Deserializer;
-import com.ksoft.serialization.ParcelDeserializer;
-import com.ksoft.serialization.ParcelSerializer;
-import com.ksoft.serialization.Serializer;
 
 public abstract class EasySerializableBase implements EasySerializable {
     /**
