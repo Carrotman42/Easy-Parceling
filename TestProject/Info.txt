@@ -1,0 +1,9 @@
+Write to XML file
+read from XML file
+
+
+extends easy base class/standalone.
+
+Standalone: repeat serialization or use wrapper output classes.
+
+Support final fields
