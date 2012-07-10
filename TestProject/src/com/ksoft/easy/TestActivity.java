@@ -12,6 +12,7 @@ public class TestActivity extends Activity {
         TestEasy test = getIntent().getExtras().getParcelable("com.ksoft.easy.testEasy");
         
         TestEasy te = test.getT2();
+        
         TestEasy[] tes = test.getT3();
         
         Throwable e = null;
