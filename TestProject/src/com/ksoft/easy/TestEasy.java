@@ -11,6 +11,7 @@ public class TestEasy extends EasySerializableBase {
     private final TestEasy t2;
     private final TestEasy[] t3;
     private final String s;
+    private MyEnum enumVal;
     
     public TestEasy(int a, TestEasy te, TestEasy[] tes, String ss) {
         t1 = a;

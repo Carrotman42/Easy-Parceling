@@ -6,27 +6,32 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
+import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.ListModel;
 import javax.swing.ScrollPaneConstants;
 
 public class Main extends MouseAdapter {
-    private static final JTextField txtClassname = new JTextField("Class name", 41);
-    private static final JTextArea txtVariables = new JTextArea("Fields", 10, 40);
+    private static final JTextField txtClassname = new JTextField("Class name");
+    private static final JTextArea txtVariables = new JTextArea("Fields", 10, 41);
     private static final JCheckBox chkInherit = new JCheckBox("Inherit from Base class", true);
     private static final JCheckBox chkXml = new JCheckBox("Support XML creation/saving", true);
     private static final JCheckBox chkGetters = new JCheckBox("Create getters for fields", true);
     private static final JCheckBox chkSetters = new JCheckBox("Create setters for fields", true);
-    
+    private static final ListModel<Variable> varlist = null;
+    private static final JList<Variable> variables = new JList<Variable>();
     
     public static void main(String... asdf) {
         JPanel panel;
@@ -37,33 +42,44 @@ public class Main extends MouseAdapter {
         
         Main main = new Main();
         
+        panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        
         panel.add(txtClassname);
-        
-        
-        JScrollPane scroll = new JScrollPane(txtVariables);
-        scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-        panel.add(scroll);
-        
-        JPanel checkPanel = new JPanel();
-        checkPanel.setSize(250, 250);
-        checkPanel.setLayout(new BoxLayout(checkPanel, BoxLayout.PAGE_AXIS));
-        chkInherit.setEnabled(false);
-        checkPanel.add(chkInherit);
-        checkPanel.add(Box.createVerticalGlue());
-        checkPanel.add(chkXml);
-        checkPanel.add(Box.createVerticalGlue());
-        checkPanel.add(chkGetters);
-        checkPanel.add(Box.createVerticalGlue());
-        checkPanel.add(chkSetters);
-        
-        panel.add(checkPanel);
-        panel.add(Box.createVerticalGlue());
+        {
+            JTabbedPane tab = new JTabbedPane();
+            
+            JScrollPane scroll = new JScrollPane(txtVariables);
+            scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+            
+            tab.addTab("See field variables", scroll);
+            
+            tab.addTab("Edit field properties", variables);
+            
+            panel.add(tab);
+        }
+        {
+            JPanel checkPanel = new JPanel();
+            checkPanel.setSize(250, 250);
+            checkPanel.setLayout(new BoxLayout(checkPanel, BoxLayout.Y_AXIS));
+            chkInherit.setEnabled(false);
+            checkPanel.add(chkInherit);
+            checkPanel.add(Box.createVerticalGlue());
+            checkPanel.add(chkXml);
+            checkPanel.add(Box.createVerticalGlue());
+            checkPanel.add(chkGetters);
+            checkPanel.add(Box.createVerticalGlue());
+            checkPanel.add(chkSetters);
+            
+            panel.add(checkPanel);
+        }
         
         JButton but;
         panel.add(but = new JButton("Done"));
         but.addMouseListener(main);
         
-        
+        frame.pack();
         frame.setVisible(true);
     }
     
@@ -96,7 +112,6 @@ public class Main extends MouseAdapter {
     private static final String XML_GET_OBJS = "protected void getObjects(HashMap<String, XmlRecreatable> map) {\nsuper.getObjects(map);\n";
     private static final String XML_GET_OBJARRS = "protected void getObjectArrays(HashMap<String, XmlRecreatable[]> map) {\nsuper.getObjectArrays(map);\n";
     
-    
     @Override
     public void mouseClicked(MouseEvent e) {
         String classname = txtClassname.getText();
@@ -117,10 +132,8 @@ public class Main extends MouseAdapter {
         StringBuilder xmlGetObjs = new StringBuilder(XML_GET_OBJS);
         StringBuilder xmlGetObjArrs = new StringBuilder(XML_GET_OBJARRS);
         
-        
         for (Entry<Integer, Variable> ent : vars.entrySet()) {
             Variable var = ent.getValue();
-            
             
             writeSerialize(serialize, var);
             writeDeserialize(deserialize, var);
@@ -196,8 +209,7 @@ public class Main extends MouseAdapter {
         }
     }
     
-    private static void writeXmlGetter(StringBuilder ifAttr, StringBuilder ifObj,
-            StringBuilder ifObjArr, Variable var, String classname) {
+    private static void writeXmlGetter(StringBuilder ifAttr, StringBuilder ifObj, StringBuilder ifObjArr, Variable var, String classname) {
         String identifier = var.getIdentifier();
         if (var.isPrimitive() || var.isString()) {
             ifAttr.append("map.put(\"").append(var.getIdentifier());
@@ -365,7 +377,7 @@ public class Main extends MouseAdapter {
         
         public String getCapitalIdentifier() {
             int start = i.charAt(0) == '_' && i.length() > 1 ? 1 : 0;
-            return i.substring(start, start+1).toUpperCase().concat(i.substring(start+1));
+            return i.substring(start, start + 1).toUpperCase().concat(i.substring(start + 1));
         }
         
         public String getIdentifier() {
