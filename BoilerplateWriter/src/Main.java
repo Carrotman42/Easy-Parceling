@@ -337,7 +337,7 @@ public class Main extends MouseAdapter {
             if (prev >= arr.length) {
                 return -1;
             }
-        } while (equalsAny(arr[prev], "public", "private", "protected", "final", ""));
+        } while (equalsAny(arr[prev].trim(), "public", "private", "protected", "final", ""));
         return prev;
     }
     
@@ -364,7 +364,8 @@ public class Main extends MouseAdapter {
         }
         
         public String getCapitalIdentifier() {
-            return i.substring(0, 1).toUpperCase().concat(i.substring(1));
+            int start = i.charAt(0) == '_' && i.length() > 1 ? 1 : 0;
+            return i.substring(start, start+1).toUpperCase().concat(i.substring(start+1));
         }
         
         public String getIdentifier() {
