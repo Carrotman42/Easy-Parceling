@@ -18,6 +18,14 @@ public final class StreamSerializer extends Serializer {
         _out = new DataOutputStream(new BufferedOutputStream(in));
     }
     
+    public final void flush() throws IOException {
+        _out.flush();
+    }
+    
+    public final void close() throws IOException {
+        _out.close();
+    }
+    
     @Override
     public final void writeBoolean(boolean val) throws IOException {
         _out.writeBoolean(val);
@@ -66,8 +74,12 @@ public final class StreamSerializer extends Serializer {
     
     @Override
     public final void writeString(String obj) throws IOException {
-        byte[] bs = obj.getBytes();
-        writeByteArray(bs, 0, bs.length);
+        if (obj == null) {
+            _out.writeInt(-1);
+        } else {
+            byte[] bs = obj.getBytes();
+            writeByteArray(bs, 0, bs.length);
+        }
     }
     
     @Override
@@ -184,6 +196,5 @@ public final class StreamSerializer extends Serializer {
         throw new RuntimeException(
                 "Writing Parcelable objects to arbitrary output streams is not supported!");
     }
-    
     
 }

@@ -18,6 +18,10 @@ public class StreamDeserializer extends Deserializer {
         _in = new DataInputStream(new BufferedInputStream(in));
     }
     
+    public final void close() throws IOException {
+        _in.close();
+    }
+    
     @Override
     public final boolean readBoolean() throws IOException {
         return _in.readBoolean();
@@ -60,7 +64,8 @@ public class StreamDeserializer extends Deserializer {
     
     @Override
     public final String readString() throws IOException {
-        return new String(readByteArray());
+        byte[] inner = readByteArray();
+        return inner == null ? null : new String(inner);
     }
     
     @Override
@@ -68,7 +73,6 @@ public class StreamDeserializer extends Deserializer {
         throw new RuntimeException(
                 "Reading Parcelable objects from arbitrary output streams is not supported!");
     }
-    
     
     // The following were taken from the Android SDK's implementations in Parcel for the
     // same functions.
